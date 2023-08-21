@@ -1,0 +1,23 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+
+<h2>Let's catch some pokémon!</h2>
+
+<div class="find-poke-grid-container">
+    <div class="grid-item find-buttons-column">
+        <h5>Where do you want to look?</h5>
+        <form type="button" class="btn btn-primary find-btns" action="">Ocean</form>
+        <button type="button" class="btn btn-success find-btns" action="">Forest</button>
+        <button type="button" class="btn btn-danger find-btns" action="">Volcano</button>
+        <button type="button" class="btn btn-warning find-btns" action="">Cave</button>
+        <button type="button" class="btn btn-dark find-btns" action="">Cemetery</button>
+        <button type="button" class="btn btn-info find-btns" action="">On the way</button>
+    </div>
+    <div class="grid-item find-display-column">
+         <img src="{{ app.RandomPokemon }}">
+    
+    </div>
+
+</div>
+{% endblock content %}
