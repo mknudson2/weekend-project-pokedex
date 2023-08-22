@@ -4,7 +4,7 @@
 
 <h2>Let's catch some pokémon!</h2>
 
-<div class="find-poke-grid-container">
+{# <div class="find-poke-grid-container">
     <div class="grid-item find-buttons-column">
         <h5>Where do you want to look?</h5>
         <form type="button" class="btn btn-primary find-btns" action="">Ocean</form>
@@ -15,9 +15,24 @@
         <button type="button" class="btn btn-info find-btns" action="">On the way</button>
     </div>
     <div class="grid-item find-display-column">
-         <img src="{{ app.RandomPokemon }}">
-    
+        {# <img src="{{ app.RandomPokemon }}"> #}
+
     </div>
 
-</div>
+</div> #}
+
+<h3>Which pokémon do you want to find?</h3>
+<form action="{{ url_for('social.find_pokemon') }}" method="POST">
+    {{ poke_form.hidden_tag() }}
+    <div>
+        {{ poke_form.poke_name.label }}<br>
+        {{ poke_form.poke_name(size=44) }}
+    </div>
+    <button type="submit">Find Pokémon!</button>
+</form>
+
+{% if poke_name %}
+    <p>You found {{ poke_name }}!</p>
+    {% endif %}
+
 {% endblock content %}

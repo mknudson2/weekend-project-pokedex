@@ -56,5 +56,14 @@
   .find-display-column {
     grid-column: 2 / span 2; 
   }
+
+
+  .poke-display {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    gap: 2rem;
+  }
   
 

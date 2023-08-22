@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity,jwt_required
 
 from . import bp as api
-from app.models import Post, User
+from app.models import Pokedex, Post, User
 
 @api.post('/publish-post')
 @jwt_required()
@@ -53,3 +53,49 @@ def user_profile(username):
    if user:
       return jsonify(user=user.to_dict())
    return jsonify(message='Invalid Username'), 404
+
+
+@api.post('/add-to-pokedex')
+@jwt_required()
+def add_to_pokedex():
+   poke_name = request.json.get('poke_name')
+   poke_img = request.json.get('poke_img')
+   username = get_jwt_identity()
+   user = User.query.filter_by(username=username).first()
+   try: 
+      pd = Pokedex(
+         poke_name = poke_name,
+         poke_img = poke_img
+      )
+      pd.commit()
+   except:
+      jsonify(message='Error, could not add to Pokedex')
+   return jsonify ({
+      f'Success! {poke_name} has bbeen added to your pokedex!' 
+   }), 200
+
+@api.get('/pokedex/<username>')
+@jwt_required()
+def get_user_pokedex(username):
+   user = User.query.filter_by(username = username).first()
+   if not user:
+      return jsonify({'message': 'Invalid username'}), 400
+   user_pokedex = user.pokedex
+   return jsonify({
+      'message': 'success',
+      'pokemon': [{
+         'poke_name': pokedex.poke_name,
+         'poke_img': pokedex.poke_img
+      } for pokemon in user_pokedex]
+   })
+
+@api.delete('/delete/<poke_name>')
+@jwt_required()
+def delete_pokemon(poke_name):
+   pokemon = Pokedex.query.get(poke_name)
+   if not pokemon:
+      return jsonify(message='Invalid pokemon'), 400
+   if pokemon.trainer.username != get_jwt_identity():
+      return jsonify(message="You cannot remove this pokémon"), 400
+   pokemon.delete()
+   return jsonify(message=f"{pokemon} has been removed from your pokedex")

@@ -1,5 +1,12 @@
 {% extends "base.jinja" %}
 
 {% block content %}
+<h1>{{username}}'s' Pokedex</h1>
+<div class="poke-display">
+    {% for pokemon in pokedex %}
+        <img src="{{ pokedex.poke_img }}" alt="pokemon image">
+        <p>{{ pokedex.poke_name }}</p>
+    {% endfor %}
+</div>
 
 {% endblock content %}

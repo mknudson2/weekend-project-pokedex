@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), nullable=False, unique=True)
     password_hash = db.Column(db.String(), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
+    pokedex = db.relationship('Pokedex', backref='trainer', lazy=True)
 
     def __repr__(self):
         return f'<USER: {self.username}>'
@@ -62,6 +63,20 @@ class Post(db.Model):
     def __repr__(self):
         return f'<Post: {self.body}'
     
+    def commit(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+class Pokedex (db.Model):
+    poke_name = db.Column(db.String(), primary_key=True)
+    # poke_type = db.Column(db.String(), nullable=False)
+    poke_img = db.Column(db.String(), nullable=False)
+    user_id=db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+
     def commit(self):
         db.session.add(self)
         db.session.commit()

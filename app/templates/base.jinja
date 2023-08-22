@@ -26,7 +26,8 @@
   {% endwith %}
   {% if current_user.is_authenticated %}
     {{ current_user.username }} 
-    {% include "post.jinja" %}
+    {# {% include "post.jinja" %} #}
+    {# {% include "find_pokemon.jinja" %} #}
   {% endif %}
   {% block content %}{% endblock %}
 

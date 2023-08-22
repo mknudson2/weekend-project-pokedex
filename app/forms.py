@@ -24,3 +24,6 @@ class PostForm(FlaskForm):
 class UserSearchForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired() ])
     submit = SubmitField('Search User')
+
+class PokeForm(FlaskForm):
+    poke_name = StringField('Pokémon Name', validators=[DataRequired()])
